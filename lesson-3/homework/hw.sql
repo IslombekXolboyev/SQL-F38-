@@ -1,0 +1,130 @@
+--1
+--BULK INSERT in SQL Server - is a command used to import large volumes of data from a data file, typically a text file or CSV, into a database table 
+--	Example: 
+--bulk insert table_name
+--from 'file_path'
+--with (
+--	firstrow = 2,
+--	fieldterminator = ',',
+--	rowterminator = '\n',
+--	tablock
+--);
+--2
+--CSV - Comma-Separated Values (.csv)
+--TXT - Plain Text Files (.txt)
+--XML - Extensible Markup Language (.xml)
+--JSON - JavaScript Object Notation (..json)
+--3
+--create table Products 
+--(
+--	ProductID int primary key,
+--	ProductName	varchar(50),
+--	Price decimal(10,2)
+--);
+--4
+--insert into Products (ProductID, ProductName, Price) values 
+--(1, 'Laptop', 1200.50),
+--(2, 'Phone', 780.20),
+--(3, 'USB-port', 120.15);
+--5
+--NULL - unknown or undefined value, an empty cell;
+--NOT NULL - the column must have a value (not missing), the cell cannot be empty.
+--6
+--alter table Products
+--add constraint UQ_Products_ProductName unique (ProductName);
+--7
+--Comments in SQL - helps to explain the purpose of a query. SQL has two types of comments:
+--	-- for single-line comments (Example: -- this command used for describing values)
+--	/* ... */ for multi-line comments (Example:		/* 
+--													this command used for describing values,
+--													showing only the ID, name, and price 
+--													*/
+--8
+--alter table Products
+--add CategoryID int;
+----9
+--create table Categories 
+--(
+--	CategoryID int primary key,
+--	CategoryName varchar(50) unique
+--);
+--10
+--IDENTITY - is used to automatically generate unique numeric values for each new row inserted into a table
+-- (Example:CREATE TABLE Products (
+--			ProductID INT IDENTITY(1,1) PRIMARY KEY,
+--			ProductName VARCHAR(50),
+--			Price DECIMAL(10,2));
+--	Here IDENTITY(1,1) means: start at 1 and increment by 1 for each new row
+--11
+--bulk insert Products
+--from 'C:\Users\ASUS\Downloads\Telegram Desktop\Products1.csv'
+--with (
+--	firstrow = 2,
+--	fieldterminator = ',',
+--	rowterminator = '\n',
+--	tablock
+--);
+--12
+--alter table Products
+--add constraint fk_Categories
+--foreign key (CategoryID) references Categories(CategoryID);
+--13
+--Primary key - Uniquely identifies each row in a table, does not allow NULL values 
+--Unique - Ensures the uniqueness of values in a column, allows null one time
+--(Example: CREATE TABLE Users (
+--			UserID INT PRIMARY KEY,    
+--			Email VARCHAR(100) UNIQUE);
+--14
+--alter table Products
+--add constraint chk_Price check (Price > 0);
+--15
+--alter table Products
+--add Stock int not null default 0;
+--16
+--select ProductID, ProductName, isnull(Price, 0) as Price, CategoryID, Stock from Products;
+--17
+--Foreign key - Maintain referential integrity between two tables, ensure that values in a column (or combination of columns) in one table match values in the primary key (or unique key) of another table, Prevent invalid or orphaned references in relational databases
+--Example: CREATE TABLE Categories (
+--    CategoryID INT PRIMARY KEY,
+--    CategoryName VARCHAR(50)
+--);
+--CREATE TABLE Products (
+--    ProductID INT PRIMARY KEY,
+--    ProductName VARCHAR(50),
+--    CategoryID INT,
+--    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
+--);
+--18
+--create table Customers
+--(
+--CustomerID int primary key,
+--Name varchar(50),
+--Age int check (Age >= 18)
+);
+--19
+--create table Example
+--(
+--ExampleID int identity(100, 10) primary key,
+--Description varchar(50)
+--);
+--20
+--create table OrderDetails
+--(
+--OrderID int, ProductID int, Quantity int, primary key (OrderID, ProductID)
+--);
+--21
+--COALESCE and ISNULL are functions used to handle NULL values, but they have some defferences:
+--ISNULL - Replaces NULL with the given value (only 2 arguments) Example: ISNULL(expr, replacement)
+--COALESCE - Returns the first non-NULL from a list (more flexible) Example: COALESCE(expr1, expr2, ..., exprN)
+--22
+--create table Employees
+--(
+--EmpID int primary key, Name varchar (50), Email varchar(50) unique
+--);
+--23
+--alter table Products
+--add constraint fk_Categories_Cascade
+--foreign key (CategoryID)
+--references Categories(CategoryID)
+--on delete cascade
+--on update cascade;
